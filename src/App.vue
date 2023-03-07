@@ -51,45 +51,55 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import db from "@/firebase";
+import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, query, orderBy } from "firebase/firestore";
 
 export default {
   setup() {
-    const todoList = ref([
-      {
-        id: "id1",
-        task: "Shave my beard",
-        done: false
-      },
-      {
-        id: "id2",
-        task: "Do smth else",
-        done: false
-      }
-    ]);
-
+    const todoList = ref([]);
     const newTodo = ref('');
+    const todosRef = collection(db, "todos");
+    const todosQuery = query(todosRef, orderBy("date", "desc"));
 
-    const addTodo = () => {
+    const addTodo = async () => {
       if (newTodo.value.trim() !== '') {
-        todoList.value.push({
-          id: `id${todoList.value.length + 1}`,
+        await addDoc(todosRef, {
           task: newTodo.value,
-          done: false
-        });
+          done: false,
+          date: Date.now()
+        })
         newTodo.value = '';
       }
     };
 
     const deleteTodo = (id) => {
-      const index = todoList.value.findIndex(todo => todo.id === id);
-      todoList.value.splice(index, 1);
+      deleteDoc(doc(todosRef, id));
     }
 
     const toggleTodo = (id) => {
       const index = todoList.value.findIndex(todo => todo.id === id);
-      todoList.value[index].done = !todoList.value[index].done;
+
+      updateDoc(doc(todosRef, id), {
+        done: !todoList.value[index].done
+      })
     }
+
+    onMounted(() => {
+      onSnapshot(todosQuery, (querySnapshot) => {
+        const fbTodos = [];
+        querySnapshot.forEach((doc) => {
+          const todo = {
+            id: doc.id,
+            task: doc.data().task,
+            done: doc.data().done,
+            date: doc.data().date
+          }
+          fbTodos.push(todo);
+        });
+        todoList.value = fbTodos;
+      });
+    })
 
     return { todoList, newTodo, addTodo, deleteTodo, toggleTodo };
   }
