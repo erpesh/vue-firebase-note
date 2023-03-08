@@ -23,7 +23,6 @@ export default {
 
     auth.onAuthStateChanged((user) => {
       currentUser.value = user ? user.email : "No user";
-      console.log(user);
     });
     console.log(currentUser.value);
 

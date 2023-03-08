@@ -51,56 +51,73 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { inject, watch, ref } from "vue";
 import db from "@/firebase";
-import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, query, orderBy } from "firebase/firestore";
+import {
+  addDoc, collection, deleteDoc, doc, onSnapshot,
+  orderBy, query, updateDoc, where } from "firebase/firestore";
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
   setup() {
+    const auth = inject("auth");
     const todoList = ref([]);
-    const newTodo = ref('');
+    const newTodo = ref("");
     const todosRef = collection(db, "todos");
-    const todosQuery = query(todosRef, orderBy("date", "desc"));
+    const currentUser = ref("");
+
+    auth.onAuthStateChanged((user) => {
+      currentUser.value = user ? user.uid : "No user";
+    });
 
     const addTodo = async () => {
-      if (newTodo.value.trim() !== '') {
+      if (newTodo.value.trim() !== "") {
         await addDoc(todosRef, {
           task: newTodo.value,
           done: false,
-          date: Date.now()
-        })
-        newTodo.value = '';
+          date: Date.now(),
+          authorId: currentUser.value
+        });
+        newTodo.value = "";
       }
     };
 
     const deleteTodo = (id) => {
       deleteDoc(doc(todosRef, id));
-    }
+    };
 
     const toggleTodo = (id) => {
       const index = todoList.value.findIndex(todo => todo.id === id);
 
       updateDoc(doc(todosRef, id), {
         done: !todoList.value[index].done
-      })
-    }
-
-    onMounted(() => {
-      onSnapshot(todosQuery, (querySnapshot) => {
-        const fbTodos = [];
-        querySnapshot.forEach((doc) => {
-          const todo = {
-            id: doc.id,
-            task: doc.data().task,
-            done: doc.data().done,
-            date: doc.data().date
-          }
-          fbTodos.push(todo);
-        });
-        todoList.value = fbTodos;
       });
-    })
+    };
+
+    watch(currentUser, (newValue) => {
+      console.log(newValue);
+      if (newValue !== "") {
+        const todosQuery = query(todosRef,
+          where("authorId", "==", newValue),
+          orderBy("date", "desc")
+        );
+
+        onSnapshot(todosQuery, (querySnapshot) => {
+          const fbTodos = [];
+          querySnapshot.forEach((doc) => {
+            const todo = {
+              id: doc.id,
+              task: doc.data().task,
+              done: doc.data().done,
+              date: doc.data().date,
+              authorId: doc.data().authorId
+            };
+            fbTodos.push(todo);
+          });
+          todoList.value = fbTodos;
+        });
+      }
+    });
 
     return { todoList, newTodo, addTodo, deleteTodo, toggleTodo };
   },

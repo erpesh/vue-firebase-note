@@ -54,6 +54,7 @@
       <button class="button is-link" @click="signInWithGoogle">Sign in with Google</button>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -117,5 +118,13 @@ export default {
 };
 </script>
 <style>
-
+.auth-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 15px;
+}
+.title {
+  display: flex;
+  justify-content: center;
+}
 </style>
