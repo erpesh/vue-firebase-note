@@ -54,6 +54,7 @@
 import { ref, onMounted } from 'vue';
 import db from "@/firebase";
 import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, query, orderBy } from "firebase/firestore";
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
   setup() {
