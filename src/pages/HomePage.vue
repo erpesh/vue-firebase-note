@@ -112,7 +112,7 @@ export default {
 @import "bulma/css/bulma.min.css";
 
 .main-container {
-  max-width: 400px;
+  max-width: 800px;
   padding: 20px;
   margin: 0 auto;
 }

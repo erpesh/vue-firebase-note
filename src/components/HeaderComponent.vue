@@ -1,11 +1,13 @@
 <template>
   <header>
-    <div class="nav-side">
-      <span>Todos</span>
-    </div>
-    <div class="nav-side">
-      <span @click="logOut">Logout</span>
-    </div>
+    <nav>
+      <div class="nav-side">
+        <span><RouterLink to="/">Todos</RouterLink></span>
+      </div>
+      <div class="nav-side">
+        <span @click="logOut">Logout</span>
+      </div>
+    </nav>
   </header>
 </template>
 
@@ -36,14 +38,28 @@ export default {
 </script>
 
 <style scoped>
-  header {
+header {
+  background: #363636;
+  color: white;
+}
+  nav {
     display: flex;
     justify-content: space-between;
-    max-width: 400px;
-    padding: 5px 20px;
+    max-width: 800px;
+    padding: 15px 20px;
     margin: 0 auto;
   }
-  .nav-side > span {
+  .nav-side > span, .nav-side > span > a {
     cursor: pointer;
+    transition: .4s;
+    font-size: 20px;
   }
+  .nav-side > span > a, .nav-side > span > a:visited  {
+    text-decoration: none;
+    color: white;
+    transition: .4s;
+  }
+.nav-side > span > a:hover, .nav-side > span:hover {
+  color: #00d1b2;
+}
 </style>
