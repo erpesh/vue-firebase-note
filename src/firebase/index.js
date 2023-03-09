@@ -3,7 +3,7 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyApOFzvRwF-MECTuQTozti56vmniAIzgxw",
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
   authDomain: "todo-vue-a564f.firebaseapp.com",
   projectId: "todo-vue-a564f",
   storageBucket: "todo-vue-a564f.appspot.com",

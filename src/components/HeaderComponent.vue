@@ -31,7 +31,7 @@ export default {
     });
 
     const logOut = () => {
-      window.location.href = "/auth";
+      window.location.href = "auth";
       signOut(auth);
     };
 

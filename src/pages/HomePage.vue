@@ -72,7 +72,7 @@ export default {
 
     const addTodo = async () => {
       if (currentUser.value === "No user") {
-        window.location.href = "/auth";
+        window.location.href = "auth";
       }
       else {
         await addDoc(todosRef, {

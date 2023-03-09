@@ -16,7 +16,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  base: "/vue-firebase-note/",
+  history: createWebHistory("/vue-firebase-note/"),
   routes
 })
 
