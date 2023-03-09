@@ -2,10 +2,15 @@
   <header>
     <nav>
       <div class="nav-side">
-        <span><RouterLink to="/">Todos</RouterLink></span>
+        <span><router-link to="/">Todos</router-link></span>
       </div>
       <div class="nav-side">
-        <span @click="logOut">Logout</span>
+        <template v-if="currentUser === 'No user'">
+          <router-link class="login-link" to="/auth">Login</router-link>
+        </template>
+        <template v-else>
+          <span @click="logOut">Logout</span>
+        </template>
       </div>
     </nav>
   </header>
@@ -24,7 +29,6 @@ export default {
     auth.onAuthStateChanged((user) => {
       currentUser.value = user ? user.email : "No user";
     });
-    console.log(currentUser.value);
 
     const logOut = () => {
       window.location.href = "/auth";
@@ -48,17 +52,17 @@ header {
     padding: 15px 20px;
     margin: 0 auto;
   }
-  .nav-side > span, .nav-side > span > a {
+  .nav-side > span, .nav-side > span > a, .login-link {
     cursor: pointer;
     transition: .4s;
     font-size: 20px;
   }
-  .nav-side > span > a, .nav-side > span > a:visited  {
+  .nav-side > span > a, .nav-side > span > a:visited, .login-link, .login-link:visited  {
     text-decoration: none;
     color: white;
     transition: .4s;
   }
-.nav-side > span > a:hover, .nav-side > span:hover {
+.nav-side > span > a:hover, .nav-side > span:hover, .login-link:hover {
   color: #00d1b2;
 }
 </style>

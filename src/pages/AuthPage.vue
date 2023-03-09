@@ -90,6 +90,7 @@ export default {
           }
           await createUserWithEmailAndPassword(auth, email.value, password.value);
         }
+        window.location.href = "/";
       } catch (err) {
         // toast.error(err.message);
       }
@@ -100,6 +101,7 @@ export default {
         const auth = getAuth();
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
+        window.location.href = "/";
       } catch (err) {
         // toast.error(err.message);
       }

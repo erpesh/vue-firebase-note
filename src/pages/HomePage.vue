@@ -71,7 +71,10 @@ export default {
     });
 
     const addTodo = async () => {
-      if (newTodo.value.trim() !== "") {
+      if (currentUser.value === "No user") {
+        window.location.href = "/auth";
+      }
+      else {
         await addDoc(todosRef, {
           task: newTodo.value,
           done: false,
@@ -95,7 +98,6 @@ export default {
     };
 
     watch(currentUser, (newValue) => {
-      console.log(newValue);
       if (newValue !== "") {
         const todosQuery = query(todosRef,
           where("authorId", "==", newValue),
