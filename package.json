@@ -1,10 +1,13 @@
 {
+  "homepage": "https://erpesh.github.io/vue-firebase-note",
   "name": "firebase-vue",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
@@ -12,6 +15,7 @@
   "dependencies": {
     "bulma": "^0.9.4",
     "firebase": "^9.17.2",
+    "gh-pages": "^5.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vue-toastification": "^1.7.14"
