@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from "@/pages/HomePage.vue";
 import AuthPage from "@/pages/AuthPage.vue";
 
@@ -17,7 +17,7 @@ const routes = [
 
 const router = createRouter({
   base: "/vue-firebase-note/",
-  history: createWebHistory("/vue-firebase-note/"),
+  history: createWebHashHistory("/vue-firebase-note/"),
   routes
 })
 
