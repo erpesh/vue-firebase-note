@@ -56,7 +56,7 @@ import db from "@/firebase";
 import {
   addDoc, collection, deleteDoc, doc, onSnapshot,
   orderBy, query, updateDoc, where } from "firebase/firestore";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from 'vue-router'
 
 export default {
   setup() {
@@ -65,6 +65,7 @@ export default {
     const newTodo = ref("");
     const todosRef = collection(db, "todos");
     const currentUser = ref("");
+    const router = useRouter();
 
     auth.onAuthStateChanged((user) => {
       currentUser.value = user ? user.uid : "No user";
@@ -72,7 +73,7 @@ export default {
 
     const addTodo = async () => {
       if (currentUser.value === "No user") {
-        window.location.href = "auth";
+        router.push("auth");
       }
       else {
         await addDoc(todosRef, {

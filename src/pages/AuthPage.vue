@@ -66,6 +66,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
+import { useRouter } from 'vue-router'
 
 export default {
   name: "AuthPage",
@@ -74,6 +75,7 @@ export default {
     const password = ref("");
     const confirmPassword = ref("");
     const authMode = ref("Login");
+    const router = useRouter();
 
     const toggleAuthMode = () => {
       authMode.value = authMode.value === "Login" ? "Register" : "Login";
@@ -90,7 +92,7 @@ export default {
           }
           await createUserWithEmailAndPassword(auth, email.value, password.value);
         }
-        window.location.href = "/";
+        router.push("/");
       } catch (err) {
         // toast.error(err.message);
       }

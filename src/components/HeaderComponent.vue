@@ -19,19 +19,21 @@
 <script>
 import { inject, ref } from "vue";
 import {signOut} from "firebase/auth";
+import { useRouter } from 'vue-router'
 
 export default {
   name: "HeaderComponent",
   setup() {
     const auth = inject("auth");
     const currentUser = ref("");
+    const router = useRouter();
 
     auth.onAuthStateChanged((user) => {
       currentUser.value = user ? user.email : "No user";
     });
 
     const logOut = () => {
-      window.location.href = "auth";
+      router.push("auth");
       signOut(auth);
     };
 
